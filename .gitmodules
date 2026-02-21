@@ -1,0 +1,12 @@
+[submodule "amplifier-distro"]
+	path = amplifier-distro
+	url = https://github.com/ramparte/amplifier-distro.git
+[submodule "amplifier-foundation"]
+	path = amplifier-foundation
+	url = https://github.com/microsoft/amplifier-foundation.git
+[submodule "amplifier-app-cli"]
+	path = amplifier-app-cli
+	url = https://github.com/microsoft/amplifier-app-cli.git
+[submodule "amplifier-start"]
+	path = amplifier-start
+	url = https://github.com/payneio/amplifier-start
