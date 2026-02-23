@@ -164,3 +164,44 @@ guidance, but doesn't configure it in Amplifier. When a feature genuinely
 needs to enumerate code directories (project discovery, multi-interface
 navigation), it should be added then — with a clearer name like `code_root`
 rather than the ambiguous `workspace_root`.
+
+---
+
+## D12: Handoffs are per-session, not per-project
+
+**Choice**: Each session gets its own `handoff.md` inside its session
+directory (`~/.amplifier/projects/<slug>/sessions/<session-id>/handoff.md`),
+not one shared file at the project level.
+
+**Original design**: One `handoff.md` per project, overwritten by each
+session.
+
+**Rationale**: Per-project handoffs have three problems:
+1. **Parallel sessions clobber**: Two concurrent sessions in the same
+   project overwrite each other's handoff.
+2. **History loss**: Only the latest session's handoff survives. Can't
+   answer "what happened in my last 3 sessions?"
+3. **No selective resume**: Can't pick up from session A if session B
+   wrote last.
+
+Per-session handoffs solve all three. The most recent handoff is found by
+scanning session directories and picking the latest timestamp. Multiple
+handoffs can be surveyed for morning briefs and friction reports.
+
+---
+
+## D13: No handoff utilities in amplifier-foundation
+
+**Choice**: Removed `handoff.py` from amplifier-foundation. The hook writes
+handoff files, and the session-handoff agent reads them using standard file
+tools. No foundation-level API for handoffs.
+
+**Alternatives**: Foundation provides `find_handoff()`, `read_handoff()`,
+`format_handoff_context()`, `inject_handoff_if_available()` as a shared
+library.
+
+**Rationale**: The handoff pattern is unproven. We haven't validated that
+the hook-generated summaries are useful, that the format is right, or that
+other bundles want this capability. Adding it to foundation promotes it to
+a shared contract before we have usage data. If the pattern proves valuable,
+we can promote the utilities then. YAGNI.
